@@ -6,6 +6,204 @@
   HUGO_VERSION = "0.97.3"
   HUGO_ENABLEGITINFO = "true"
 
+[[redirects]]
+  from = "/legacy/*"
+  to = "/:splat"
+  status = 200
+
+# Preserve old home bookmarks while keeping the public homepage at the root.
+[[redirects]]
+  from = "/home-preview"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/home-preview/"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/"
+  to = "/home-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/skuggsja/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/skuggsja"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/tour/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/tour"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/projects/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/projects"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/projects-preview/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/projects-preview"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/publication/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/publication"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/post/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/post"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/people/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/people"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/contact/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/contact"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/links/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/links"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/meetings/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/meetings"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/event/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/event"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/post/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/publication/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/author/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/event/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/tag/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/category/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/publication-type/:slug/"
+  to = "/site-preview/index.html"
+  status = 200
+  force = true
+
 [context.production.environment]
   HUGO_ENV = "production"
 
