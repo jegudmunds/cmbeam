@@ -42,3 +42,30 @@ search?.addEventListener('input', () => {
 document.addEventListener('click', (event) => {
   if (!event.target.closest('.search-wrap')) results.hidden = true;
 });
+
+
+// Keep the current notebook section visible in the contents hierarchy.
+(() => {
+  const links = [...document.querySelectorAll('.page-toc a[href^="#"]')];
+  const entries = links.map(link => ({ link, heading: document.getElementById(decodeURIComponent(link.hash.slice(1))) })).filter(entry => entry.heading);
+  if (!entries.length) return;
+  let queued = false;
+  const update = () => {
+    queued = false;
+    let current = entries[0];
+    for (const entry of entries) {
+      if (entry.heading.getBoundingClientRect().top <= 130) current = entry;
+      else break;
+    }
+    for (const entry of entries) {
+      if (entry === current) entry.link.setAttribute('aria-current', 'location');
+      else entry.link.removeAttribute('aria-current');
+    }
+  };
+  window.addEventListener('scroll', () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('hashchange', update);
+  window.addEventListener('load', update);
+  update();
+})();

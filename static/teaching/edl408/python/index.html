@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="is">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10366f">
+  <title>Python-vinnusvæði · EÐL408</title>
+  <script>
+    try {
+      const theme = localStorage.getItem('edl408-python-theme');
+      if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
+    } catch (_) { /* Storage may be unavailable. */ }
+  </script>
+  <link rel="stylesheet" href="/teaching/edl408/assets/terminal.css">
+  <script defer src="/teaching/edl408/assets/terminal.js"></script>
+</head>
+<body>
+  <div class="terminal-app">
+    <header class="terminal-topbar">
+      <a class="back-link" href="/teaching/edl408/" aria-label="Fara aftur í námsbókina">← <span>Námsbók</span></a>
+      <div class="terminal-brand"><span class="terminal-mark">&gt;_</span><span>Python</span></div>
+      <div class="terminal-actions">
+        <button type="button" id="toggle-theme" class="theme-toggle" aria-pressed="false" aria-label="Nota dökka stillingu" title="Nota dökka stillingu"></button>
+        <span class="kernel-indicator" id="kernel-indicator" aria-hidden="true"></span>
+        <span id="kernel-status" role="status" aria-live="polite">Hleð Python…</span>
+        <button type="button" id="clear-terminal" title="Hreinsa sögu og niðurstöður. Python-breytur haldast.">Hreinsa</button>
+        <button type="button" id="restart-terminal" title="Endurræsa Python og hreinsa allt, þar á meðal breytur og niðurstöður.">Endurræsa</button>
+      </div>
+    </header>
+    <main class="terminal-main" id="terminal-main" aria-label="Python-vinnusvæði">
+      <div class="terminal-intro">
+        <h1>Python-vinnusvæði</h1>
+        <p>NumPy og Matplotlib eru tilbúin til notkunar. Skrifaðu Python-kóða og sjáðu niðurstöðurnar hér fyrir neðan.</p>
+      </div>
+      <div id="terminal-history" class="terminal-history" aria-label="Fyrri skipanir og niðurstöður" aria-live="polite" aria-relevant="additions"></div>
+      <section class="terminal-entry" aria-label="Skrifa Python-kóða">
+        <label class="prompt-mark" for="terminal-input" aria-hidden="true">&gt;&gt;&gt;</label>
+        <div class="editor-stack">
+          <textarea id="terminal-input" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Python-kóði" placeholder="np.arange(5)"></textarea>
+          <div class="entry-footer">
+            <span>Enter: keyra eina línu · Shift+Enter / Ctrl+Enter: keyra · Alt+Enter: ný lína · ↑/↓: fyrri skipanir</span>
+            <button type="button" id="run-terminal" disabled>Keyra <span aria-hidden="true">↵</span></button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

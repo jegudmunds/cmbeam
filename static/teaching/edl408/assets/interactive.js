@@ -10,6 +10,14 @@ let pyodide = null;
 let running = false;
 let interactiveCells = [];
 
+function assignmentEditorCode(code) {
+  return code.split('\n').filter((line) => {
+    const trimmed = line.trim();
+    return !/^import (?:numpy as np|matplotlib\.pyplot as plt|matplotlib\.cm as cm|matplotlib)\s*(?:#.*)?$/.test(trimmed)
+      && !/^(?:plt|plot)\.show\(\s*\)\s*(?:#.*)?$/.test(trimmed);
+  }).join('\n');
+}
+
 function browserCompatibleCode(code) {
   const lines = code.split('\n');
   const converted = [];
@@ -77,7 +85,12 @@ function makeCellsEditable() {
     const pre = inputArea?.querySelector('pre');
     if (!inputArea || !pre) return null;
 
-    const code = pre.textContent.replace(/^\s*\n/, '').replace(/\s+$/, '');
+    const originalCode = pre.textContent;
+    const code = assignmentEditorCode(originalCode).replace(/^\s*\n/, '').replace(/\s+$/, '');
+    if (originalCode.trim() && !code.trim()) {
+      cell.remove();
+      return null;
+    }
     const editor = document.createElement('textarea');
     editor.className = 'python-editor';
     editor.value = code;
@@ -184,7 +197,13 @@ async function enablePython() {
     await loadScript(`${PYODIDE_BASE}pyodide.js`);
     pyodide = await globalThis.loadPyodide({ indexURL: PYODIDE_BASE });
     await pyodide.loadPackage(['numpy', 'scipy', 'matplotlib']);
-    await pyodide.runPythonAsync("import matplotlib; matplotlib.use('Agg')");
+    await pyodide.runPythonAsync(`
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+    `);
     makeCellsEditable();
     enableButton.hidden = true;
     sessionTools.hidden = false;
