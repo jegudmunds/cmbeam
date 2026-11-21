@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="is"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>Gagnaúrvinnsla og tímaraðir · gagnaurvinnsla_v2</title><link rel="stylesheet" href="../../assets/site.css"></head><body><main class="content"><article class="notebook-page"><div class="notebook"><p class="eyebrow">EÐL408 · Kafli 1 · Önnur útgáfa</p>
+<h1>Gagnaúrvinnsla og tímaraðir</h1>
+<p>Klukkan er tólf og hitamælir í sjó sýnir tveimur gráðum hærri hita en um morguninn. Hlýnaði sjórinn? Til að svara þurfum við að vita hvenær mælingarnar voru teknar, hvort mælarnir gefa sömu niðurstöðu og hversu mikið hitinn sveiflast að jafnaði. Við fylgjum þessari spurningu frá mælitöflu að einföldu líkani fyrir tímaröð.</p>
+<h2>Frá mælitöflu að fylki</h2>
+<p>Tveir mælar skrá hitastig á tíu mínútna fresti. Í töflunni geymum við eina tímasetningu í hverri röð og einn mæli í hverjum dálki. Tíminn er í mínútum frá upphafi mælingar og hitinn í °C. Hér eru tilbúin gögn sem við getum reiknað með í höndunum áður en við treystum kóðanum.</p>
+<pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+t = np.array([0, 10, 20, 30, 40, 50])
+T = np.array([[8.0, 8.2],
+              [8.1, 8.3],
+              [8.2, 8.4],
+              [np.nan, 8.5],
+              [8.5, 8.7],
+              [8.6, 8.8]])
+print(T.shape, T.dtype)  # (6, 2), float64</code></pre>
+<p><code>np.nan</code> merkir að mælingu vantar. Núll væri gild hitamæling og myndi draga meðaltalið niður. Í Python tvöfaldar <code>[8, 9] * 2</code> lengd lista. NumPy-fylkið <code>np.array([8, 9]) * 2</code> gefur hins vegar gildin 16 og 18. Reikningur stak fyrir stak hentar þegar sama leiðrétting á við allar mælingar.</p>
+<h2>Hvað táknar ásinn?</h2>
+<p>Ritunin <code>T[2, 1]</code> velur þriðju tímasetninguna og seinni mælinn, sem gaf 8,4 °C. Með <code>T[:, 1]</code> fáum við allan feril þess mælis. Meðaltal yfir ás 0 sameinar tímasetningar og skilar tveimur tölum, einni fyrir hvorn mæli. Meðaltal yfir ás 1 sameinar mæla og skilar sex tölum, einni fyrir hvert augnablik.</p>
+<pre><code>print(np.nanmean(T, axis=0))
+print(np.nanmean(T, axis=1))</code></pre>
+<p>Við 30 mínútur byggist síðara meðaltalið á einum mæli. Ef sá mælir les kerfisbundið of hátt birtist lítið stökk í ferlinum einmitt þegar hinn mælinn vantar. Til að meta muninn þurfum við að bera þá saman á sömu augnablikum.</p>
+<h2>Samanburður, val og kvörðun</h2>
+<pre><code>par = np.isfinite(T).all(axis=1)
+munur = T[par, 1] - T[par, 0]
+vik = np.median(munur)
+print(par.sum(), vik)  # fimm pör, um 0,2 °C
+Tk = T - np.array([0.0, vik])
+hiti = np.nanmean(Tk, axis=1)</code></pre>
+<p>Rökfylkið <code>par</code> velur þær raðir þar sem báðar mælingar eru gildar. Við miðum kvörðunina við fyrri mælinn. Gögnin segja okkur hversu mikið mælana greinir á, en til að ákvarða raunverulegt hitastig þyrftum við einnig óháðan staðal. Við frádráttinn passar NumPy tvö leiðréttingargildi við síðasta ás fylkisins og beitir þeim á hverja röð. Þetta kallast útvíkkun (<i>broadcasting</i>).</p>
+<p>Ef nýr dagur bætist við, sameinum við töflur með <code>np.concatenate((dagur1, dagur2), axis=0)</code> og sameinum tímavigrana í sömu röð með sameiginlegt tímaviðmið. Nýr mælir á sömu tímapunktum bætir hins vegar við dálki. Að breyta lögun með <code>reshape</code> endurraðar sömu stökum í nýtt form. Það getur ekki parað mælingar eftir klukkunni.</p>
+<h2>Hvað gerðist á milli mælinga?</h2>
+<p>Fyrri mælirinn þagnaði við 30 mínútur. Bein lína milli 8,2 °C við 20 mínútur og 8,5 °C við 40 mínútur gefur 8,35 °C á miðju bilinu. Þessa brúun má prófa gegn sjálfstæðu mælingunni úr seinni dálkinum, sem gefur 8,3 °C eftir leiðréttingu.</p>
+<pre><code>gild = np.isfinite(T[:, 0])
+mat = np.interp(30, t[gild], T[gild, 0])
+plt.plot(t, T[:, 0], 'o', label='Mælir 1')
+plt.plot(t, Tk[:, 1], '+', label='Mælir 2, leiðréttur')
+plt.plot(30, mat, 's', markerfacecolor='none', label='Línuleg brúun')
+plt.xlabel('Tími (mín.)')
+plt.ylabel('Hitastig (°C)')
+plt.legend()</code></pre>
+<p>NumPy sér um fylkjareikninginn. SciPy býður meðal annars upp á brúun með splínum þegar við höfum ástæðu til að gera ráð fyrir sléttum ferli. Sléttari mynd segir þó lítið um það hvort hitinn hafi sveiflast í eyðunni. Til að bera aðferðir saman má fela þekktan innri mælipunkt, brúa yfir hann og bera spána saman við mælinguna.</p>
+<h2>Frá tímaröð að leitni</h2>
+<p>Tímaröð geymir bæði tímasetningar og gildi. Hér gefur <code>np.diff(t)</code> fimm jafn löng bil. Þriggja punkta hlaupandi meðaltal nær því frá tíu mínútum fyrir miðpunkt til tíu mínútna eftir hann. Ef tímasetningarnar væru óreglulegar gætu þrjú samliggjandi gildi náð yfir mislangan tíma.</p>
+<pre><code>slétt = np.convolve(hiti, np.ones(3) / 3, mode='valid')
+print(t[1:-1], slétt)</code></pre>
+<p>Fyrsta sléttaða gildið er (8,0 + 8,1 + 8,2)/3 = 8,1 °C og á heima við 10 mínútur. Við hvorn enda vantar nágranna og því fást fjögur gildi. Sléttun dregur úr skammtímasveiflum en getur líka falið stuttan hitatopp. Hráu mælingarnar eiga því erindi á sama graf.</p>
+<p>Til að lýsa hækkuninni með einni tölu getum við metið halla beinnar línu. Hallinn hefur eininguna °C á mínútu. Leifarnar sýna hvað stendur eftir af tímaröðinni þegar línan hefur verið dregin frá.</p>
+<pre><code>halli, skurdur = np.polyfit(t, hiti, 1)
+leif = hiti - (skurdur + halli * t)
+print(60 * halli)  # °C á klukkustund</code></pre>
+<p>Hér mælum við hækkun um 0,6 °C á 50 mínútum. Hallinn lýsir þessu tímabili. Til að skera úr um hvort hlýnunin haldi áfram eða sé hluti af dægursveiflu þyrftum við lengri röð.</p>
+<h2>Hvenær er eðlilegt að taka meðaltal yfir tíma?</h2>
+<p>Hugsum okkur að mælingin sé summa þriggja þátta, grunn­hita, leitni og suðs. Ef leitnin er jákvæð fer væntigildi mælingarinnar eftir tímanum. Meðaltal fyrri hlutans og meðaltal síðari hlutans svara þá ólíkum spurningum. Eftir að leitnin hefur verið metin getum við kannað hvort leifarnar sveiflist um svipað gildi og með svipaðri dreifni allan tímann.</p>
+<p>Í veikt sístæðu ferli er væntigildið fast, dreifnin endanleg og samdreifni tveggja mælinga ræðst eingöngu af tímanum sem líður á milli þeirra. Mælingar með stuttu millibili geta því tengst þótt ferlið sé sístætt. Sterk sístæðni krefst þess að sameiginleg dreifing mælinganna haldist óbreytt þegar öllum tímasetningum er hliðrað jafnmikið. Sterk sístæðni felur í sér veika sístæðni ef annað vægið er endanlegt.</p>
+<pre><code>rng = np.random.default_rng(408)
+timi = np.arange(200)
+sud = rng.normal(0, 0.1, size=timi.size)
+hiti_likan = 8 + 0.01 * timi + sud
+for hluti in np.array_split(hiti_likan, 4):
+    print(round(hluti.mean(), 2), round(hluti.std(), 2))</code></pre>
+<p>Prófið að endurtaka samanburðinn fyrir <code>sud</code>. Í líkaninu vitum við hvernig tölurnar urðu til. Suðið hefur sama væntigildi í öllum fjórðungum, en úrtaksmeðaltölin verða samt örlítið ólík. Í mældri röð er líkanið óþekkt og fjögur meðaltöl ein og sér nægja ekki til að sýna fram á sístæðni.</p>
+<h2>Til umhugsunar</h2>
+<p>Setjið ykkur í spor þess sem fær gögnin afhent. Hvað myndi gerast við matið á hallanum ef eyðan við 30 mínútur væri skráð sem núll? Hvernig breytist brúunin ef bæði gildin við 20 og 30 mínútur vantar? Teiknið niðurstöðurnar með upphaflegu mælipunktunum og merkið sérstaklega þau gildi sem þið reiknuðuð. Þá getur lesandinn séð hvaða ályktanir byggjast á mælingum og hvar forsendur úrvinnslunnar ráða niðurstöðunni.</p></div></article></main></body></html>
