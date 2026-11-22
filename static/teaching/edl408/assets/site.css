@@ -327,3 +327,7 @@ kbd { position:absolute; right:10px; top:8px; color:#334158; font-size:12px; bor
 .terminal-sidebar-link span { font:700 1rem/1 ui-monospace,Consolas,monospace; color:#16899c; }
 .terminal-sidebar-link:hover { background:#e1eefb; border-color:#98b8da; text-decoration:none; }
 .terminal-sidebar-link:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
+
+/* Match the STÆ211 homepage title. */
+@font-face{font-family:'Skuggsja Preview';src:url('/assets/fonts/SkuggsjaPreview-Bold.ttf') format('truetype');font-style:normal;font-weight:700 900;font-display:swap}
+.home h1{font-family:'Skuggsja Preview',system-ui,sans-serif}
