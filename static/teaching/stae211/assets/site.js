@@ -1,5 +1,6 @@
 (()=>{
 const menu=document.querySelector('.menu-button'),scrim=document.querySelector('.sidebar-scrim'),input=document.getElementById('search'),panel=document.getElementById('search-results');
+document.querySelectorAll('#course-sidebar .course-title').forEach(x=>x.textContent='Stærðfræði fyrir eðlisfræðinga I');
 const sidebar=document.querySelector('#course-sidebar .sidebar-inner');
 const examsLabel=[...document.querySelectorAll('#course-sidebar .sidebar-label')].find(x=>x.textContent.trim()==='Próf');
 const homeworkUrl='/teaching/stae211/heimadaemi/';
