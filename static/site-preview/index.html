@@ -221,7 +221,7 @@ async function showNewsGrid(target, asPreview) {
    location.replace(asPreview(url)); return;
  }
  const sourceURL = new URL('/legacy' + url.pathname + url.search, location.origin);
- const canonicalURL = u => new URL((u.pathname.startsWith('/legacy/') ? u.pathname.slice(7) : u.pathname) + u.search + u.hash, location.origin);
+ const canonicalURL = u => u.origin !== location.origin ? u : new URL((u.pathname.startsWith('/legacy/') ? u.pathname.slice(7) : u.pathname) + u.search + u.hash, location.origin);
  if (/^\/tour\/?$/.test(url.pathname)) { document.title='Tour · Skuggsjá'; document.getElementById('preview-title').textContent='Tour'; showTour(target); return; }
  if (/^\/post\/?$/.test(url.pathname)) {
    try { if (await showNewsGrid(target, asPreview)) { document.title='Latest news · Skuggsjá';document.getElementById('preview-title').textContent='Latest news';return; } } catch {}
