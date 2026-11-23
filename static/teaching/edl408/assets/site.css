@@ -1,4 +1,4 @@
-/* Common design is maintained in teaching/assets/course.css. */
+/* Shared theme is bundled by build_site.py for standalone publication. */
 @import url("../../assets/course.css");
 :root{
   --code: #eef4fc;
