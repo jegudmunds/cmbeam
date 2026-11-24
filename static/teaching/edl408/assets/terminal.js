@@ -1,6 +1,6 @@
 'use strict';
 const PYODIDE_BASE = 'https://cdn.jsdelivr.net/pyodide/v314.0.6/full/';
-const editor = document.querySelector('#terminal-input');
+const editor = CoursePythonEditor(document.querySelector('#terminal-input'));
 const runButton = document.querySelector('#run-terminal');
 const historyArea = document.querySelector('#terminal-history');
 const statusText = document.querySelector('#kernel-status');
@@ -66,7 +66,7 @@ function addCommand(code) {
   const prompt = document.createElement('span');
   prompt.className = 'history-prompt';
   prompt.textContent = '>>>';
-  const input = document.createElement('textarea');
+  let input = document.createElement('textarea');
   input.className = 'history-code';
   input.value = code;
   input.rows = Math.max(2, Math.min(20, code.split('\n').length));
@@ -83,6 +83,7 @@ function addCommand(code) {
   output.className = 'history-result';
   block.append(prompt, codeArea, output);
   historyArea.appendChild(block);
+  input = CoursePythonEditor(input);
   const record = { input, output, rerun };
   rerun.addEventListener('click', () => execute(record));
   input.addEventListener('keydown', (event) => {
@@ -221,3 +222,4 @@ function setTheme(dark) {
 themeButton.addEventListener('click', () => setTheme(document.documentElement.dataset.theme !== 'dark'));
 setTheme(document.documentElement.dataset.theme === 'dark');
 setupPython();
+

@@ -1,0 +1,24 @@
+/* Shared editable Python cell appearance. */
+.CodeMirror { height: auto; min-height: 5em; font: 14px/1.6 var(--font-code, ui-monospace, monospace); background: #f1f5fa; color: #192640; border: 1px solid #ccd8e7; border-radius: 6px; }
+.CodeMirror-scroll { min-height: 5em; }
+.CodeMirror pre.CodeMirror-line, .CodeMirror pre.CodeMirror-line-like { border: 0; background: transparent; padding: 0 8px; margin: 0; font: inherit; color: inherit; }
+.CodeMirror-gutters { background: #e8eef6; border-right: 1px solid #ccd8e7; }
+.CodeMirror-linenumber { color: #66758a; }
+.CodeMirror-lines { padding: 10px 0; }
+.cm-s-default .cm-keyword { color: #813da3; }
+.cm-s-default .cm-number, .cm-s-default .cm-atom { color: #007a76; }
+.cm-s-default .cm-string { color: #9a431f; }
+.cm-s-default .cm-comment { color: #53734a; font-style: italic; }
+.cm-s-default .cm-builtin, .cm-s-default .cm-def { color: #185bb1; }
+.CodeMirror-cursor { border-left-color: #192640; }
+html[data-theme='dark'] .CodeMirror { background: #101722; color: #e4eaf4; border-color: #526a8e; }
+html[data-theme='dark'] .CodeMirror-gutters { background: #182232; border-color: #526a8e; }
+html[data-theme='dark'] .CodeMirror-linenumber { color: #9eacc2; }
+html[data-theme='dark'] .CodeMirror-cursor { border-left-color: #e4eaf4; }
+html[data-theme='dark'] .cm-keyword { color: #d6a3ff; }
+html[data-theme='dark'] .cm-number, html[data-theme='dark'] .cm-atom { color: #77d9cf; }
+html[data-theme='dark'] .cm-string { color: #f3c58b; }
+html[data-theme='dark'] .cm-comment { color: #a0bd8f; }
+html[data-theme='dark'] .cm-builtin, html[data-theme='dark'] .cm-def { color: #8cc8ff; }
+html[data-theme='dark'] .CodeMirror-selected { background: #344563; }
+.history-editor .CodeMirror { flex: 1; min-width: 0; width: 100%; }

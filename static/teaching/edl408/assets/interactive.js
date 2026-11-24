@@ -116,7 +116,7 @@ function makeCellsEditable() {
     cell.appendChild(output);
 
     const staticOutputs = [...cell.querySelectorAll('.output_wrapper')];
-    const record = { cell, editor, output, runButton, staticOutputs };
+    const record = { cell, editor: CoursePythonEditor(editor), output, runButton, staticOutputs };
     runButton.addEventListener('click', () => runCell(record));
     return record;
   }).filter(Boolean);
@@ -225,3 +225,4 @@ runAllButton?.addEventListener('click', async () => {
   setStatus('Öllum Python-reitum hefur verið keyrt.');
 });
 resetButton?.addEventListener('click', () => window.location.reload());
+
