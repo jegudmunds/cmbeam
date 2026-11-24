@@ -309,3 +309,15 @@ body.nav-open .sidebar-scrim{ display: block; position: fixed; z-index: 25; inse
 /* EDL408 alone has a right-hand chapter outline. */
 .layout:has(> .content > .home){grid-template-columns:288px minmax(0,1fr)}
 @media(max-width:760px){.layout:has(> .content > .home){display:block}}
+
+
+/* Optional, per-cell solutions; independent of the Python runtime. */
+.notebook .cell-solution { margin: .8rem 0 1rem; border: 1px solid #cbdce5; border-left: 4px solid #13a5ba; border-radius: 6px; background: #f4fafb; }
+.notebook .cell-solution > summary { cursor: pointer; padding: .65rem 1rem; color: #1854a5; font-family: inherit; font-weight: 600; }
+.notebook .cell-solution > summary:focus-visible { outline: 2px solid #1854a5; outline-offset: 3px; }
+.notebook .cell-solution .solution-hide { display: none; }
+.notebook .cell-solution[open] .solution-show { display: none; }
+.notebook .cell-solution[open] .solution-hide { display: inline; }
+.notebook .solution-content { padding: 0 1rem 1rem; }
+.notebook .solution-content > p { margin: .2rem 0 .7rem; font-size: .9em; color: #526779; }
+.notebook .solution-content .highlight pre { margin: 0; overflow-x: auto; }
