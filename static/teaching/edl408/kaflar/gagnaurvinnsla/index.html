@@ -2180,6 +2180,17 @@ Staðalfrávik tímaraðar með hlaupandi meðaltali:   0.736
 <li>Leitni getur verið vaxandi eða minnkandi en hún er alltaf einhalla.</li>
 <li>Hún getur aukist eða minnkað á mismunandi vegu yfir tíma (línulega, veldisvaxandi o.s.frv.).</li>
 </ul>
+<p>Í einföldu samlagningarlíkani má skipta tímaröðinni í þrjá þætti:</p>
+<p>$
+y_t = g_t + s_t + \epsilon_t, \qquad t=1,\ldots,N.
+$</p>
+<p>Hér er $y_t$ gildi tímaraðarinnar við mælingu $t$.</p>
+<ul>
+<li>$g_t$ er <strong>leitnin</strong> sem lýsir þróun tímaraðarinnar til lengri tíma.</li>
+<li>$s_t$ er <strong>árstíðabundni þátturinn</strong> sem lýsir reglubundnum sveiflum. Í mánaðarlegri tímaröð með árssveiflu endurtekur hann sig á 12 mánaða fresti.</li>
+<li>$\epsilon_t$ er <strong>suðið</strong> sem lýsir sveiflum sem leitnin og árstíðabundni þátturinn skýra ekki.</li>
+</ul>
+<p>Í dæminu hér fyrir neðan er leitnin $g_t$ bein lína (<code>passenger_trend</code>), árstíðabundni þátturinn $s_t$ sínusbylgja með eins árs lotu (<code>fluctuations</code>) og suðið $\epsilon_t$ dregið úr normaldreifingu (<code>noise</code>). Þegar við drögum þekkta leitni frá gervigögnunum standa árstíðasveiflan og suðið eftir, $y_t-g_t=s_t+\epsilon_t$.</p>
 <p>Skoðum dæmi um tímaröð með augljósa leitni. Búum því til þykjustutímaröð sem á að tákna fjöld farþega sem fara í gegnum Leifstöð á hverjum mánuði sem fall af tíma yfir 25-ára tímabil sem hefst árið 2000:</p>
 </div>
 </div>
