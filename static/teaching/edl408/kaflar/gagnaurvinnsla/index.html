@@ -1798,15 +1798,16 @@ $$ E[y_t^2] &lt; \infty, \quad \forall t \in [1, \ldots, N] $$</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="eiginfylgni">Eiginfylgni<a class="anchor-link" href="#Eiginfylgni">¶</a></h2><p>Eiginfylgnifallið (e. autocorrelation function, ACF) mælir línulega fylgni milli gilda tímaraðar með tiltekinni töf $k$. Fyrir veikt stöðugt ferli með meðaltal $\mu$ og dreifni $\sigma^2 &gt; 0$ er eiginfylgnin</p>
+<h2 id="eiginfylgni">Eiginfylgni<a class="anchor-link" href="#Eiginfylgni">¶</a></h2><p>Eiginfylgnifallið (e. autocorrelation function, ACF) mælir línulega fylgni milli gilda tímaraðar með tiltekinni töf $h$. Fyrir veikt stöðugt ferli $y_t$ með meðaltal $\mu$ og dreifni $\sigma^2 &gt; 0$ er eiginfylgnin</p>
 <p>$$
-\rho(k) = \frac{\operatorname{E}[(X(t)-\mu)(X(t-k)-\mu)]}{\sigma^2}.
+\rho(h) = \frac{E[(y_t-\mu)(y_{t+h}-\mu)]}{\sigma^2},
+\qquad 0\le h&lt;N,\quad 1\le t\le N-h.
 $$</p>
-<p>Teljarinn er eiginsamdreifnin við töf $k$ og nefnarinn er eiginsamdreifnin við töf núll.</p>
-<p>Fyrir mælda tímaröð $x_1,\ldots,x_N$ með úrtaksmeðaltal $\bar{x}$ má meta eiginfylgnina með</p>
+<p>Teljarinn er eiginsamdreifnin við töf $h$ og nefnarinn er eiginsamdreifnin við töf núll.</p>
+<p>Fyrir mælda tímaröð $y_1,\ldots,y_N$ með úrtaksmeðaltal $\bar{y}$ má meta eiginfylgnina með</p>
 <p>$$
-\widehat{\rho}(k) = \frac{\sum_{t=k+1}^{N}(x_t-\bar{x})(x_{t-k}-\bar{x})}{\sum_{t=1}^{N}(x_t-\bar{x})^2},
-\qquad k=0,\ldots,N-1.
+\widehat{\rho}(h) = \frac{\sum_{t=1}^{N-h}(y_t-\bar{y})(y_{t+h}-\bar{y})}{\sum_{t=1}^{N}(y_t-\bar{y})^2},
+\qquad h=0,\ldots,N-1.
 $$</p>
 <p>Gildi nálægt $1$ eða $-1$ benda til sterkrar jákvæðrar eða neikvæðrar línulegrar fylgni. Gildi nálægt núlli benda til veikrar línulegrar fylgni.</p>
 </div>
