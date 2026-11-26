@@ -10,3 +10,76 @@
 .notes-button.secondary:hover{background:#e5edf8}
 .notes-help{margin-bottom:0}
 
+
+.notebook-page :is(h2, h3, h4)[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+.page-toc {
+  display: none;
+}
+
+@media screen and (min-width: 1121px) {
+  .layout.has-page-toc {
+    grid-template-columns: var(--sidebar) minmax(0, 1fr) var(--toc);
+  }
+
+  .page-toc {
+    display: block;
+    position: sticky;
+    top: 4rem;
+    align-self: start;
+    max-height: calc(100vh - 4rem);
+    overflow: auto;
+    scrollbar-width: thin;
+    padding: 2rem 1rem 2rem 1.15rem;
+    border-left: 1px solid var(--line);
+    font-size: .875rem;
+  }
+
+  .page-toc p {
+    margin: 0 0 1rem;
+    font-size: .9rem;
+    font-weight: 800;
+  }
+
+  .page-toc a {
+    display: block;
+    padding: .35rem .5rem;
+    border-radius: 4px;
+    color: #263c5b;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .page-toc .toc-level-2 {
+    margin-top: .65rem;
+    font-weight: 500;
+  }
+
+  .page-toc .toc-level-3,
+  .page-toc .toc-level-4 {
+    margin-left: .6rem;
+    padding-left: .8rem;
+    border-left: 2px solid #d8e3ee;
+    color: #52617a;
+  }
+
+  .page-toc .toc-level-4 {
+    margin-left: 1.4rem;
+    border-left-width: 1px;
+  }
+
+  .page-toc a:hover {
+    color: var(--blue);
+    background: #f0f5fb;
+    text-decoration: none;
+  }
+
+  .page-toc a[aria-current="location"] {
+    color: #103f7e;
+    background: #eaf2fc;
+    box-shadow: inset 3px 0 0 var(--blue);
+    font-weight: 600;
+  }
+}

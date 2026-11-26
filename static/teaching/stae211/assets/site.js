@@ -18,3 +18,59 @@ if(!matches.length){const p=document.createElement('p');p.textContent='Ekkert fa
 });
 document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))panel.hidden=true});
 })();
+
+(() => {
+  if (!/\/chapter-[0-9]+\/?$/.test(location.pathname)) return;
+  const layout = document.querySelector('.layout');
+  const headings = layout?.querySelectorAll('.notebook-page :is(h2, h3, h4)[id]');
+  if (!headings?.length) return;
+
+  const toc = document.createElement('aside');
+  toc.className = 'page-toc';
+  toc.setAttribute('aria-label', 'Efnisyfirlit síðunnar');
+
+  const title = document.createElement('p');
+  title.textContent = 'Á þessari síðu';
+
+  const nav = document.createElement('nav');
+  nav.setAttribute('aria-label', 'Kaflar og undirkaflar');
+
+  const entries = Array.from(headings, heading => {
+    const label = heading.cloneNode(true);
+    label.querySelectorAll('.anchor-link').forEach(anchor => anchor.remove());
+
+    const link = document.createElement('a');
+    link.className = 'toc-level-' + heading.tagName.slice(1);
+    // Notebook exports can contain literal percent escapes in heading IDs.
+    link.href = '#' + encodeURIComponent(heading.id);
+    link.textContent = label.textContent.trim();
+    nav.append(link);
+    return { heading, link };
+  });
+
+  toc.append(title, nav);
+  layout.append(toc);
+  layout.classList.add('has-page-toc');
+
+  let frame = 0;
+  function updateCurrentSection() {
+    frame = 0;
+    let current;
+    for (const entry of entries) {
+      if (entry.heading.getBoundingClientRect().top > 130) break;
+      current = entry;
+    }
+    for (const entry of entries) {
+      if (entry === current) entry.link.setAttribute('aria-current', 'location');
+      else entry.link.removeAttribute('aria-current');
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!frame) frame = requestAnimationFrame(updateCurrentSection);
+  }, { passive: true });
+  window.addEventListener('hashchange', updateCurrentSection);
+  window.addEventListener('load', updateCurrentSection);
+  window.addEventListener('resize', updateCurrentSection);
+  updateCurrentSection();
+})();
