@@ -36,6 +36,11 @@ document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))panel
   nav.setAttribute('aria-label', 'Kaflar og undirkaflar');
 
   const entries = Array.from(headings, heading => {
+    const headingText = heading.firstChild;
+    if (headingText?.nodeType === Node.TEXT_NODE) {
+      headingText.data = headingText.data.replace(/^\s*\d+(?:\.\d+)*\.\s+/, '');
+    }
+
     const label = heading.cloneNode(true);
     label.querySelectorAll('.anchor-link').forEach(anchor => anchor.remove());
 
